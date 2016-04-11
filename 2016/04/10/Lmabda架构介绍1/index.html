@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="崔培楠">
 <meta property="og:description" content="摘要：&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;Lmabda架构介绍
 正文：">
-<meta property="og:updated_time" content="2016-04-10T12:27:24.729Z">
+<meta property="og:updated_time" content="2016-04-11T02:18:06.427Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Lmabda架构介绍（一）">
 <meta name="twitter:description" content="摘要：&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;&amp;#160;Lmabda架构介绍
@@ -362,11 +362,11 @@
 <p>Lmabda架构分为3层，批处理层，服务层和速度层：  </p>
 <ul>
 <li>Batch Layer</li>
-<li>Server Layer</li>
+<li>Serving Layer</li>
 <li>Speed Layer </li>
 </ul>
 <h3 id="1-Batch-Layer"><a href="#1-Batch-Layer" class="headerlink" title="1.Batch Layer"></a>1.Batch Layer</h3><p>批处理层生成批处理视图。需要能够做俩件事：存储不可变的，不断增长的主数据集；在该数据集上运算任意函数。Hadoop是批处理系统的一个典型例子，我们将使用Hadoop来阐述批处理层的概念。</p>
-<h3 id="2-Server-Layer"><a href="#2-Server-Layer" class="headerlink" title="2.Server Layer"></a>2.Server Layer</h3><p>服务层加载批处理层生成的批处理视图，这样它们才能被查询到。服务层是一个专用的分布式数据库，用于加载批处理视图，并可以对它进行随机读取。当新的批处理视图可用时，服务层自动替换哪些视图，这样更多的最新结果就是可用的了。</p>
+<h3 id="2-Serving-Layer"><a href="#2-Serving-Layer" class="headerlink" title="2.Serving Layer"></a>2.Serving Layer</h3><p>服务层加载批处理层生成的批处理视图，这样它们才能被查询到。服务层是一个专用的分布式数据库，用于加载批处理视图，并可以对它进行随机读取。当新的批处理视图可用时，服务层自动替换哪些视图，这样更多的最新结果就是可用的了。</p>
 <p>服务层支持随机读取批处理视图和支持批处理更新。最值得注意的是，它不需要支持随机写操作，因为随机写操作会再数据库中导致绝大多数的复杂性。因为不支持随机写，所以这些数据库是非常简单的。简单性使得他们是健壮的，可预测的，易于配置的，且操作简单的ElephantDB，是Lambda中使用的服务层数据库，它只有几千行代码。</p>
 <h3 id="3-Speed-Layer"><a href="#3-Speed-Layer" class="headerlink" title="3.Speed Layer"></a>3.Speed Layer</h3><p>当批处理层完成预先计算批处理视图时，服务层就进行更新。这意味着唯一没有在批处理视图中展示的数据，是运行预先计算期间新来的数据。速度层的目的，实现一个完全实时数据系统剩下的数据要完成（即为了实时在任意数据上执行任意函数计算–弥补最后几个小时的哪些数据。），顾名思义，它的目标是确保新的数据按照应用程序需求尽快展示在查询函数中。</p>
 <p>速度层层做三件事：  </p>
@@ -512,7 +512,7 @@ query = function (batch view,realtime view);
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -543,7 +543,7 @@ query = function (batch view,realtime view);
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要："><span class="nav-number">1.</span> <span class="nav-text">摘要：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正文："><span class="nav-number">2.</span> <span class="nav-text">正文：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Batch-Layer"><span class="nav-number">2.1.</span> <span class="nav-text">1.Batch Layer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Server-Layer"><span class="nav-number">2.2.</span> <span class="nav-text">2.Server Layer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Speed-Layer"><span class="nav-number">2.3.</span> <span class="nav-text">3.Speed Layer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">2.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要："><span class="nav-number">1.</span> <span class="nav-text">摘要：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正文："><span class="nav-number">2.</span> <span class="nav-text">正文：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Batch-Layer"><span class="nav-number">2.1.</span> <span class="nav-text">1.Batch Layer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Serving-Layer"><span class="nav-number">2.2.</span> <span class="nav-text">2.Serving Layer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Speed-Layer"><span class="nav-number">2.3.</span> <span class="nav-text">3.Speed Layer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">2.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
